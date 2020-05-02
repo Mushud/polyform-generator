@@ -13,7 +13,7 @@ npm install --save polyform-generator
 ## Usage
 
 > You can generate a form object from
-> [Polyform Builder](https:polyform.netlify.com)
+> [Polyform Builder](https://polyform.netlify.com)
 
 > Copy your form object as pass it as prop and let Polyform do the magic
 
