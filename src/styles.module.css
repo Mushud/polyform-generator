@@ -7,3 +7,32 @@
   font-size: 2em;
   text-align: center;
 }
+
+.container {
+  display: flex;
+  align-items: center;
+  height: 70vh;
+  padding-left: 40px;
+}
+
+.button {
+  padding: 10px;
+  color: 'white';
+  border-radius: 5px;
+}
+
+.button:focus {
+  outline-width: 0;
+}
+
+.input {
+  margin-top: 10px;
+  font-size: 22pt;
+  font-family: 'Special Elite';
+  background-color: white;
+  border-style: none;
+}
+
+.input:focus {
+  outline-width: 0;
+}
