@@ -1,14 +1,12 @@
 import React from 'react'
-
 import styles from './styles.module.css'
 
-export function Polyform({ text, form, onComplete }) {
+export function Polyform({ form, onComplete }) {
   const [currentPosition, setCurrentPosition] = React.useState(-1)
   const [submitButton, setSubmitButton] = React.useState(false)
   const [answers, setAnswers] = React.useState([])
   const [currentAnswer, setCurrentAnswer] = React.useState('')
   const [currentMultipleChoice, setCurrentMultipleChoice] = React.useState([])
-
   const { questions, selections } = form
 
   function getSelectionsFormSelector(index) {
@@ -52,16 +50,13 @@ export function Polyform({ text, form, onComplete }) {
   return (
     <div className={[styles.container]}>
       <style>
-        @import
-        url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        @import url(https://fonts.googleapis.com/css?family=Roboto);
       </style>
 
       {currentPosition == -1 ? (
         <div>
-          <h1 style={{ fontFamily: 'Special Elite', margin: 0 }}>
-            {form.container.title}
-          </h1>
-          <p style={{ fontFamily: 'Special Elite', marginTop: '5px' }}>
+          <h1 style={{ fontFamily: 'Roboto' }}>{form.container.title}</h1>
+          <p style={{ fontFamily: 'Roboto', marginTop: '5px' }}>
             {form.container.about}
           </p>
           <button
@@ -69,8 +64,9 @@ export function Polyform({ text, form, onComplete }) {
             className={styles.button}
             style={{
               marginTop: '20px',
+              borderStyle: 'none',
               color: 'white',
-              fontFamily: 'Special Elite',
+              fontFamily: 'Roboto',
               backgroundColor: form.container.tintColor,
               fontSize: '14pt'
             }}
@@ -80,9 +76,7 @@ export function Polyform({ text, form, onComplete }) {
         </div>
       ) : currentPosition == -2 ? (
         <div>
-          <h1 style={{ fontFamily: 'Special Elite' }}>
-            Thanks for filling this form
-          </h1>
+          <h1 style={{ fontFamily: 'Roboto' }}>Thanks for filling this form</h1>
           <button className={styles.button} onClick={() => onComplete(answers)}>
             Submit
           </button>
@@ -98,14 +92,12 @@ export function Polyform({ text, form, onComplete }) {
           >
             Go Back
           </button>
-          <p style={{ fontFamily: 'Special Elite' }}>
-            Powered by Polymorph Labs
-          </p>
+          <p style={{ fontFamily: 'Roboto' }}>Powered by Polymorph Labs</p>
         </div>
       ) : (
         <div>
           <p style={{ fontWeight: 'bold' }}>{currentPosition + 1}</p>
-          <h1 style={{ fontFamily: 'Special Elite', margin: 0 }}>
+          <h1 style={{ fontFamily: 'Roboto', margin: 0 }}>
             {questions[currentPosition].question}
           </h1>
           {questions[currentPosition].type === 'short-text' ? (
