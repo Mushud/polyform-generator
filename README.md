@@ -1,4 +1,4 @@
-# polyform-generator
+# Polyform-generator
 
 > Generate your beautify forms
 
