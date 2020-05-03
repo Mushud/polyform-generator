@@ -20,7 +20,7 @@ npm install --save polyform-generator
 ```jsx
 import React, { Component } from 'react'
 
-import Polyform from 'polyform-generator'
+import { Polyform } from 'polyform-generator'
 import 'polyform-generator/dist/index.css'
 
 const formObject = {
