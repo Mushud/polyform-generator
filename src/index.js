@@ -55,7 +55,12 @@ export function Polyform({ form, onComplete }) {
 
       {currentPosition == -1 ? (
         <div>
-          <h1 style={{ fontFamily: 'Roboto' }}>{form.container.title}</h1>
+          <p style={{ color: 'grey' }}>
+            <i>{form.properties.mda}</i>
+          </p>
+          <h1 style={{ fontFamily: 'Roboto', margin: 0 }}>
+            {form.container.title}
+          </h1>
           <p style={{ fontFamily: 'Roboto', marginTop: '5px' }}>
             {form.container.about}
           </p>
