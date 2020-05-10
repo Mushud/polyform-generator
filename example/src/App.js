@@ -4,6 +4,9 @@ import { Polyform } from 'polyform-generator'
 import 'polyform-generator/dist/index.css'
 
 const formObject = {
+  properties: {
+    mda: 'Ghana Passport'
+  },
   container: {
     backgroudColor: 'blue',
     title: 'Registration form for GIS',
