@@ -334,6 +334,9 @@ export function Polyform({ form, onComplete }) {
 
 Polyform.defaultProps = {
   form: {
+    properties: {
+      mda: 'Sample Mda'
+    },
     container: {
       backgroudColor: 'blue',
       title: 'Sample Form',
