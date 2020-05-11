@@ -50,7 +50,10 @@ export function Polyform({ form, onComplete }) {
   return (
     <div className={[styles.container]}>
       <style>
-        @import url(https://fonts.googleapis.com/css?family=Roboto);
+        <style>
+          @import
+          url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,700;0,800;0,900;1,800&display=swap');
+        </style>
       </style>
 
       {currentPosition == -1 ? (
@@ -58,10 +61,10 @@ export function Polyform({ form, onComplete }) {
           <p style={{ color: 'grey' }}>
             <i>{form.properties.mda}</i>
           </p>
-          <h1 style={{ fontFamily: 'Roboto', margin: 0 }}>
+          <h1 style={{ fontFamily: 'Raleway', margin: 0 }}>
             {form.container.title}
           </h1>
-          <p style={{ fontFamily: 'Roboto', marginTop: '5px' }}>
+          <p style={{ fontFamily: 'Raleway', marginTop: '5px' }}>
             {form.container.about}
           </p>
           <button
@@ -71,7 +74,7 @@ export function Polyform({ form, onComplete }) {
               marginTop: '20px',
               borderStyle: 'none',
               color: 'white',
-              fontFamily: 'Roboto',
+              fontFamily: 'Raleway',
               backgroundColor: form.container.tintColor,
               fontSize: '14pt'
             }}
@@ -81,7 +84,9 @@ export function Polyform({ form, onComplete }) {
         </div>
       ) : currentPosition == -2 ? (
         <div>
-          <h1 style={{ fontFamily: 'Roboto' }}>Thanks for filling this form</h1>
+          <h1 style={{ fontFamily: 'Raleway', marginBottom: '10px' }}>
+            Thanks for completing this Form
+          </h1>
           <button className={styles.button} onClick={() => onComplete(answers)}>
             Submit
           </button>
@@ -97,12 +102,14 @@ export function Polyform({ form, onComplete }) {
           >
             Go Back
           </button>
-          <p style={{ fontFamily: 'Roboto' }}>Powered by Polymorph Labs</p>
+          <p style={{ fontFamily: 'Raleway' }}>Powered by Polymorph Labs</p>
         </div>
       ) : (
         <div>
-          <p style={{ fontWeight: 'bold' }}>{currentPosition + 1}</p>
-          <h1 style={{ fontFamily: 'Roboto', margin: 0 }}>
+          <p style={{ fontWeight: 'bold', color: form.container.tintColor }}>
+            {currentPosition + 1}
+          </p>
+          <h1 style={{ fontFamily: 'Raleway', margin: 0 }}>
             {questions[currentPosition].question}
           </h1>
           {questions[currentPosition].type === 'short-text' ? (
@@ -300,7 +307,13 @@ export function Polyform({ form, onComplete }) {
             </div>
           ) : null}
           <div
-            style={{ position: 'absolute', bottom: 0, marginBottom: '20px' }}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              marginBottom: '20px',
+              marginLeft: '20px',
+              left: 0
+            }}
           >
             Answered <b>{currentPosition} </b>out of <b>{questions.length}</b>
             {currentPosition != 0 ? (
@@ -314,7 +327,12 @@ export function Polyform({ form, onComplete }) {
                   currentAnswers.pop()
                   setAnswers(currentAnswers)
                 }}
-                style={{ marginLeft: '10px', padding: '10x' }}
+                style={{
+                  marginLeft: '10px',
+                  padding: '5px',
+                  backgroundColor: 'white',
+                  borderColor: 'grey'
+                }}
               >
                 {'<'}
               </button>

@@ -11,6 +11,7 @@
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 70vh;
   padding-left: 40px;
 }
@@ -31,7 +32,7 @@
 .input {
   margin-top: 10px;
   font-size: 18pt;
-  font-family: 'Roboto';
+  font-family: 'Raleway';
   background-color: white;
   border-style: none;
 }
