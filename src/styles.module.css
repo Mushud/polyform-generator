@@ -12,17 +12,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70vh;
+  height: 100vh;
   padding-left: 40px;
+  text-align: center;
 }
 
 .button {
   margin-top: 10px;
   padding: 10px;
   color: 'white';
-  border-radius: 7px;
+  border-radius: 4px;
   border-style: solid;
-  border-color: '#fafafa';
 }
 
 .button:focus {
@@ -32,9 +32,11 @@
 .input {
   margin-top: 10px;
   font-size: 18pt;
-  font-family: 'Raleway';
+  font-family: 'Karla';
   background-color: white;
   border-style: none;
+  margin-left: 15px;
+  min-width: 50vh;
 }
 
 .input:focus {
