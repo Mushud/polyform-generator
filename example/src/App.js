@@ -38,12 +38,22 @@ const formObject = {
       type: 'multiple-choice',
       key: 65759,
       question: 'What do you do at your free time?'
+    },
+    {
+      type: 'multiple-choice',
+      key: 324234,
+      question: 'What do you like?'
     }
   ],
   selections: [
     {
       questionIndex: 4,
       selections: ['Sleep', 'Watch Movies', 'Play game'],
+      key: 44428
+    },
+    {
+      questionIndex: 5,
+      selections: ['Food', 'Money', 'Cash'],
       key: 44428
     }
   ]
@@ -54,7 +64,7 @@ function onComplete(e) {
 }
 
 const App = () => {
-  return <Polyform onComplete={onComplete} form={formObject} />
+  return <Polyform onComplete={onComplete} form={formObject} current={-5} />
 }
 
 export default App
