@@ -1,8 +1,11 @@
 import React from 'react'
 import styles from './styles.module.css'
 
-export function Polyform({ form, onComplete }) {
-  const [currentPosition, setCurrentPosition] = React.useState(-1)
+export function Polyform({ form, onComplete, current }) {
+  const [currentPosition, setCurrentPosition] = React.useState(
+    current == -5 ? -1 : current
+  )
+
   const [submitButton, setSubmitButton] = React.useState(false)
   const [answers, setAnswers] = React.useState([])
   const [currentAnswer, setCurrentAnswer] = React.useState('')
@@ -10,7 +13,6 @@ export function Polyform({ form, onComplete }) {
   const { questions, selections } = form
 
   function getSelectionsFormSelector(index) {
-    console.log(selections)
     const mSelect = selections.findIndex(
       (element) => element.questionIndex === index
     )
@@ -19,7 +21,10 @@ export function Polyform({ form, onComplete }) {
       <div
         onClick={() => {
           if (!currentMultipleChoice.includes(choice)) {
+            currentMultipleChoice.pop()
+            //  currentMultipleChoice.push(choice)
             setCurrentMultipleChoice([...currentMultipleChoice, choice])
+            console.log(currentMultipleChoice)
             setSubmitButton(true)
           } else {
             setCurrentMultipleChoice(
@@ -31,9 +36,10 @@ export function Polyform({ form, onComplete }) {
           }
         }}
         style={{
-          backgroundColor: currentMultipleChoice.includes(choice)
-            ? form.container.tintColor
-            : 'white',
+          backgroundColor:
+            currentMultipleChoice[0] == choice
+              ? form.container.tintColor
+              : 'white',
           color: currentMultipleChoice.includes(choice) ? 'white' : 'black',
           marginBottom: '10px',
           borderStyle: 'solid',
@@ -54,37 +60,49 @@ export function Polyform({ form, onComplete }) {
           @import
           url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,700;0,800;0,900;1,800&display=swap');
         </style>
+        <style>
+          @import
+          url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+        </style>
+
+        <style>
+          @import
+          url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+        </style>
       </style>
 
       {currentPosition == -1 ? (
         <div>
-          <p style={{ color: 'grey' }}>
-            <i>{form.properties.mda}</i>
+          <p style={{ color: 'grey', fontFamily: 'Karla' }}>
+            {form.properties.mda}
           </p>
-          <h1 style={{ fontFamily: 'Raleway', margin: 0 }}>
+          <h1 style={{ fontFamily: 'Karla', margin: 0 }}>
             {form.container.title}
           </h1>
-          <p style={{ fontFamily: 'Raleway', marginTop: '5px' }}>
+          <p style={{ fontFamily: 'Karla', marginTop: '10px' }}>
             {form.container.about}
           </p>
-          <button
-            onClick={() => setCurrentPosition(0)}
-            className={styles.button}
-            style={{
-              marginTop: '20px',
-              borderStyle: 'none',
-              color: 'white',
-              fontFamily: 'Raleway',
-              backgroundColor: form.container.tintColor,
-              fontSize: '14pt'
-            }}
-          >
-            Get Started
-          </button>
+
+          <center>
+            <button
+              onClick={() => setCurrentPosition(0)}
+              className={styles.button}
+              style={{
+                marginTop: '20px',
+                borderStyle: 'none',
+                color: 'white',
+                fontFamily: 'Karla',
+                backgroundColor: form.container.tintColor,
+                fontSize: '14pt'
+              }}
+            >
+              Start
+            </button>
+          </center>
         </div>
       ) : currentPosition == -2 ? (
         <div>
-          <h1 style={{ fontFamily: 'Raleway', marginBottom: '10px' }}>
+          <h1 style={{ fontFamily: 'Karla', marginBottom: '10px' }}>
             Thanks for completing this Form
           </h1>
           <button className={styles.button} onClick={() => onComplete(answers)}>
@@ -102,16 +120,20 @@ export function Polyform({ form, onComplete }) {
           >
             Go Back
           </button>
-          <p style={{ fontFamily: 'Raleway' }}>Powered by Polymorph Labs</p>
+          <p style={{ fontFamily: 'Karla' }}>Powered by Polymorph Labs</p>
         </div>
       ) : (
-        <div>
-          <p style={{ fontWeight: 'bold', color: form.container.tintColor }}>
-            {currentPosition + 1}
-          </p>
-          <h1 style={{ fontFamily: 'Raleway', margin: 0 }}>
-            {questions[currentPosition].question}
-          </h1>
+        <div style={{ textAlign: 'left' }}>
+          <div
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              fontFamily: 'Karla',
+              margin: 0
+            }}
+          >
+            {currentPosition + 1}. {questions[currentPosition].question}
+          </div>
           {questions[currentPosition].type === 'short-text' ? (
             <input
               value={currentAnswer}
@@ -237,33 +259,16 @@ export function Polyform({ form, onComplete }) {
             />
           ) : null}
 
-          {submitButton &&
-          questions[currentPosition].type !== 'multiple-choice' ? (
-            <button
-              onClick={(e) => {
-                setAnswers([
-                  ...answers,
-                  { question: currentPosition, answer: currentAnswer }
-                ])
-                setSubmitButton(false)
-                if (currentPosition != questions.length - 1) {
-                  setCurrentPosition(currentPosition + 1)
-                } else {
-                  //  onComplete(answers)
-                  setCurrentPosition(-2)
-                }
-
-                setCurrentAnswer('')
-              }}
-              style={{ borderStyle: 'none' }}
-            >
-              {questions[currentPosition].type === 'long-text'
-                ? 'Press Ctrl + Return'
-                : 'Press Return '}
-            </button>
-          ) : null}
           {submitButton ? (
-            <div style={{ marginTop: '10px' }}>
+            <div
+              style={{
+                marginTop: '10px',
+                flexDirection: 'row',
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft: '15px'
+              }}
+            >
               <button
                 onClick={(e) => {
                   if (questions[currentPosition].type !== 'multiple-choice') {
@@ -302,8 +307,37 @@ export function Polyform({ form, onComplete }) {
                 }}
                 className={styles.button}
               >
-                Submit
+                OK
               </button>
+              {submitButton &&
+              questions[currentPosition].type !== 'multiple-choice' ? (
+                <div
+                  onClick={(e) => {
+                    setAnswers([
+                      ...answers,
+                      { question: currentPosition, answer: currentAnswer }
+                    ])
+                    setSubmitButton(false)
+                    if (currentPosition != questions.length - 1) {
+                      setCurrentPosition(currentPosition + 1)
+                    } else {
+                      //  onComplete(answers)
+                      setCurrentPosition(-2)
+                    }
+
+                    setCurrentAnswer('')
+                  }}
+                  style={{
+                    borderStyle: 'none',
+                    fontSize: 14,
+                    marginLeft: '10px'
+                  }}
+                >
+                  {questions[currentPosition].type === 'long-text'
+                    ? 'Press Ctrl + Return'
+                    : 'Press Return '}
+                </div>
+              ) : null}
             </div>
           ) : null}
           <div
@@ -322,7 +356,6 @@ export function Polyform({ form, onComplete }) {
                   setCurrentAnswer('')
                   setCurrentPosition(currentPosition - 1)
                   setSubmitButton(false)
-
                   let currentAnswers = answers
                   currentAnswers.pop()
                   setAnswers(currentAnswers)
@@ -330,11 +363,13 @@ export function Polyform({ form, onComplete }) {
                 style={{
                   marginLeft: '10px',
                   padding: '5px',
-                  backgroundColor: 'white',
-                  borderColor: 'grey'
+                  borderRadius: '4px',
+                  backgroundColor: form.container.tintColor,
+                  color: 'white',
+                  borderStyle: 'none'
                 }}
               >
-                {'<'}
+                <b>{'<'}</b>
               </button>
             ) : null}
           </div>
@@ -362,7 +397,9 @@ Polyform.defaultProps = {
       tintColor: '#0390fc'
     },
     questions: [],
-    selections: []
+    selections: [],
+    current: -5
   },
+
   onComplete: (e) => e
 }
