@@ -6,6 +6,10 @@ export function Polyform({ form, onComplete, current }) {
     current == -5 ? -1 : current
   )
 
+  React.useEffect(() => {
+    setCurrentPosition(current == -5 ? -1 : current)
+  }, [current])
+
   const [submitButton, setSubmitButton] = React.useState(false)
   const [answers, setAnswers] = React.useState([])
   const [currentAnswer, setCurrentAnswer] = React.useState('')
