@@ -340,42 +340,42 @@ export function Polyform({ form, onComplete, current }) {
               ) : null}
             </div>
           ) : null}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              marginBottom: '20px',
-              marginLeft: '20px',
-              left: 0
-            }}
-          >
-            Answered <b>{currentPosition} </b>out of <b>{questions.length}</b>
-            {currentPosition != 0 ? (
-              <button
-                onClick={() => {
-                  setCurrentAnswer('')
-                  setCurrentPosition(currentPosition - 1)
-                  setSubmitButton(false)
-                  let currentAnswers = answers
-                  currentAnswers.pop()
-                  setAnswers(currentAnswers)
-                }}
-                style={{
-                  marginLeft: '10px',
-                  padding: '5px',
-                  borderRadius: '4px',
-                  backgroundColor: form.container.tintColor,
-                  color: 'white',
-                  borderStyle: 'none'
-                }}
-              >
-                <b>{'<'}</b>
-              </button>
-            ) : null}
-          </div>
         </div>
       )}
 
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          marginBottom: '20px',
+          marginLeft: '20px',
+          left: 0
+        }}
+      >
+        Answered <b>{currentPosition} </b>out of <b>{questions.length}</b>
+        {currentPosition != 0 ? (
+          <button
+            onClick={() => {
+              setCurrentAnswer('')
+              setCurrentPosition(currentPosition - 1)
+              setSubmitButton(false)
+              let currentAnswers = answers
+              currentAnswers.pop()
+              setAnswers(currentAnswers)
+            }}
+            style={{
+              marginLeft: '10px',
+              padding: '5px',
+              borderRadius: '4px',
+              backgroundColor: form.container.tintColor,
+              color: 'white',
+              borderStyle: 'none'
+            }}
+          >
+            <b>{'<'}</b>
+          </button>
+        ) : null}
+      </div>
       <div
         style={{ position: 'absolute', bottom: 0, right: 0, margin: '20px' }}
       >
@@ -397,9 +397,9 @@ Polyform.defaultProps = {
       tintColor: '#0390fc'
     },
     questions: [],
-    selections: [],
-    current: -5
+    selections: []
   },
+  current: -5,
 
   onComplete: (e) => e
 }
