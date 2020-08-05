@@ -75,36 +75,7 @@ export function Polyform({ form, onComplete, current }) {
         </style>
       </style>
 
-      {currentPosition == -1 ? (
-        <div>
-          <p style={{ color: 'grey', fontFamily: 'Karla' }}>
-            {form.properties.mda}
-          </p>
-          <h1 style={{ fontFamily: 'Karla', margin: 0 }}>
-            {form.container.title}
-          </h1>
-          <p style={{ fontFamily: 'Karla', marginTop: '10px' }}>
-            {form.container.about}
-          </p>
-
-          <center>
-            <button
-              onClick={() => setCurrentPosition(0)}
-              className={styles.button}
-              style={{
-                marginTop: '20px',
-                borderStyle: 'none',
-                color: 'white',
-                fontFamily: 'Karla',
-                backgroundColor: form.container.tintColor,
-                fontSize: '14pt'
-              }}
-            >
-              Start
-            </button>
-          </center>
-        </div>
-      ) : currentPosition == -2 ? (
+      {currentPosition == -1 ? null : currentPosition == -2 ? (
         <div>
           <h1 style={{ fontFamily: 'Karla', marginBottom: '10px' }}>
             Thanks for completing this Form
@@ -347,7 +318,7 @@ export function Polyform({ form, onComplete, current }) {
         </div>
       )}
 
-      <div
+      {/* <div
         style={{
           position: 'absolute',
           bottom: 0,
@@ -384,7 +355,7 @@ export function Polyform({ form, onComplete, current }) {
         style={{ position: 'absolute', bottom: 0, right: 0, margin: '20px' }}
       >
         Powered by <b>Polymorph Labs</b>
-      </div>
+      </div> */}
     </div>
   )
 }
