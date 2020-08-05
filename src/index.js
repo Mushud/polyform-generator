@@ -75,7 +75,36 @@ export function Polyform({ form, onComplete, current }) {
         </style>
       </style>
 
-      {currentPosition == -1 ? null : currentPosition == -2 ? (
+      {currentPosition == -1 ? (
+        <div>
+          <p style={{ color: 'grey', fontFamily: 'Karla' }}>
+            {form.properties.mda}
+          </p>
+          <h1 style={{ fontFamily: 'Karla', margin: 0 }}>
+            {form.container.title}
+          </h1>
+          <p style={{ fontFamily: 'Karla', marginTop: '10px' }}>
+            {form.container.about}
+          </p>
+
+          <center>
+            <button
+              onClick={() => setCurrentPosition(0)}
+              className={styles.button}
+              style={{
+                marginTop: '20px',
+                borderStyle: 'none',
+                color: 'white',
+                fontFamily: 'Karla',
+                backgroundColor: form.container.tintColor,
+                fontSize: '14pt'
+              }}
+            >
+              Start
+            </button>
+          </center>
+        </div>
+      ) : currentPosition == -2 ? (
         <div>
           <h1 style={{ fontFamily: 'Karla', marginBottom: '10px' }}>
             Thanks for completing this Form
