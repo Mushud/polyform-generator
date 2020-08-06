@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './styles.module.css'
+import './tailwind.css'
 
 export function Polyform({ form, onComplete, current }) {
   const [currentPosition, setCurrentPosition] = React.useState(
@@ -58,7 +59,7 @@ export function Polyform({ form, onComplete, current }) {
   }
 
   return (
-    <div className={[styles.container]}>
+    <div className={'relative bg-gray-100 h-screen'}>
       <style>
         <style>
           @import
@@ -76,33 +77,39 @@ export function Polyform({ form, onComplete, current }) {
       </style>
 
       {currentPosition == -1 ? (
-        <div>
-          <p style={{ color: 'grey', fontFamily: 'Karla' }}>
-            {form.properties.mda}
-          </p>
-          <h1 style={{ fontFamily: 'Karla', margin: 0 }}>
-            {form.container.title}
-          </h1>
-          <p style={{ fontFamily: 'Karla', marginTop: '10px' }}>
-            {form.container.about}
-          </p>
+        <div classname='lg:relative h-screen'>
+          <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
+            <div class='px-4 lg:w-1/2 sm:px-8 xl:pr-16'>
+              <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
+                {form.container.title}
+                <br class='xl:hidden'></br>
+                <span class='text-indigo-600'>.</span>
+              </h2>
+              <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
+                {form.container.about}
+              </p>
+              <div class='mt-10 sm:flex sm:justify-center lg:justify-start'>
+                <div class='rounded-md shadow'>
+                  <button
+                    onClick={() => {
+                      setCurrentPosition(0)
+                    }}
+                    class='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                  >
+                    Get started
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <center>
-            <button
-              onClick={() => setCurrentPosition(0)}
-              className={styles.button}
-              style={{
-                marginTop: '20px',
-                borderStyle: 'none',
-                color: 'white',
-                fontFamily: 'Karla',
-                backgroundColor: form.container.tintColor,
-                fontSize: '14pt'
-              }}
-            >
-              Start
-            </button>
-          </center>
+          <div class='relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full'>
+            <img
+              class='absolute inset-0 w-full h-full object-cover'
+              src='https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80'
+              alt='Woman on her phone'
+            ></img>
+          </div>
         </div>
       ) : currentPosition == -2 ? (
         <div>
@@ -127,8 +134,32 @@ export function Polyform({ form, onComplete, current }) {
           <p style={{ fontFamily: 'Karla' }}>Powered by Polymorph Labs</p>
         </div>
       ) : (
-        <div style={{ textAlign: 'left' }}>
-          <div
+        <div classname='lg:relative'>
+          <div className='flex content-center flex-wrap p-48 bg-white h-screen'>
+            <div className={'mt-1'}>
+              <span
+                style={{ fontSize: '1rem' }}
+                className={'text-blue-600 flex flex-row items-center'}
+              >
+                {currentPosition + 1}
+                <svg
+                  width={15}
+                  height={15}
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth={2}
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  className='feather feather-arrow-right mx-1'
+                >
+                  <path d='M5 12L19 12' />
+                  <path d='M12 5L19 12 12 19' />
+                </svg>
+              </span>
+            </div>
+
+            {/* <div
             style={{
               fontSize: 24,
               fontWeight: 'bold',
@@ -137,213 +168,257 @@ export function Polyform({ form, onComplete, current }) {
             }}
           >
             {currentPosition + 1}. {questions[currentPosition].question}
-          </div>
-          {questions[currentPosition].type === 'short-text' ? (
-            <input
-              value={currentAnswer}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setAnswers([
-                    ...answers,
-                    { question: currentPosition, answer: e.target.value }
-                  ])
-                  setSubmitButton(false)
-                  if (currentPosition != questions.length - 1) {
-                    setCurrentPosition(currentPosition + 1)
-                  } else setCurrentPosition(-2)
-                  setCurrentAnswer('')
-                }
-              }}
-              onChange={(e) => {
-                setCurrentAnswer(e.target.value)
-                if (currentAnswer !== '') {
-                  setSubmitButton(true)
-                }
-              }}
-              className={styles.input}
-              placeholder='Enter your Answer here'
-              style={{ color: form.container.tintColor }}
-            />
-          ) : questions[currentPosition].type === 'multiple-choice' ? (
-            <div style={{ marginTop: '10px' }}>
-              {getSelectionsFormSelector(currentPosition)}
-            </div>
-          ) : questions[currentPosition].type === 'long-text' ? (
-            <textarea
-              onKeyDown={(e) => {
-                if (e.ctrlKey && e.key === 'Enter') {
-                  setAnswers([
-                    ...answers,
-                    { question: currentPosition, answer: e.target.value }
-                  ])
-                  setSubmitButton(false)
-                  if (currentPosition != questions.length - 1) {
-                    setCurrentPosition(currentPosition + 1)
-                  } else setCurrentPosition(-2)
-                  setCurrentAnswer('')
-                }
-              }}
-              onChange={(e) => {
-                setCurrentAnswer(e.target.value)
-                if (currentAnswer !== '') {
-                  setSubmitButton(true)
-                }
-              }}
-              style={{ minHeight: '100px', fontSize: '16pt' }}
-              className={styles.input}
-              placeholder='Enter your Answer here'
-            />
-          ) : questions[currentPosition].type === 'phone-number' ? (
-            <input
-              maxLength={10}
-              type='tel'
-              value={currentAnswer}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setAnswers([
-                    ...answers,
-                    { question: currentPosition, answer: currentAnswer }
-                  ])
-                  setSubmitButton(false)
-                  if (currentPosition != questions.length - 1) {
-                    setCurrentPosition(currentPosition + 1)
-                  } else {
-                    onComplete(answers)
-                    setCurrentPosition(-2)
-                  }
-                  setCurrentAnswer('')
-                }
+          </div> */}
+            <div>
+              <div className={''}>
+                <span className='text-4xl font-semibold'>
+                  {questions[currentPosition].question}
+                </span>
+              </div>
 
-                if (e.keyCode == 8) {
-                  if (currentAnswer.length > 0) {
-                    setCurrentAnswer(
-                      currentAnswer.substring(0, currentAnswer.length - 1)
-                    )
-                  }
-                }
-                if (e.keyCode >= 48 && e.keyCode <= 57) {
-                  setCurrentAnswer(currentAnswer + e.key)
-                }
-              }}
-              onChange={(e) => {
-                if (currentAnswer.length == 10) {
-                  setSubmitButton(true)
-                }
-              }}
-              className={styles.input}
-              placeholder='Enter your Answer here'
-              style={{ color: form.container.tintColor }}
-            />
-          ) : questions[currentPosition].type === 'email' ? (
-            <input
-              type='email'
-              value={currentAnswer}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setAnswers([
-                    ...answers,
-                    { question: currentPosition, answer: e.target.value }
-                  ])
-                  setSubmitButton(false)
-                  if (currentPosition != questions.length - 1) {
-                    setCurrentPosition(currentPosition + 1)
-                  } else setCurrentPosition(-2)
-                  setCurrentAnswer('')
-                }
-              }}
-              onChange={(e) => {
-                setCurrentAnswer(e.target.value)
-                if (currentAnswer !== '') {
-                  setSubmitButton(true)
-                }
-              }}
-              className={styles.input}
-              placeholder='Enter your Answer here'
-              style={{ color: form.container.tintColor }}
-            />
-          ) : null}
-
-          {submitButton ? (
-            <div
-              style={{
-                marginTop: '10px',
-                flexDirection: 'row',
-                display: 'flex',
-                alignItems: 'center',
-                marginLeft: '15px'
-              }}
-            >
-              <button
-                onClick={(e) => {
-                  if (questions[currentPosition].type !== 'multiple-choice') {
-                    setAnswers([
-                      ...answers,
-                      { question: currentPosition, answer: currentAnswer }
-                    ])
-                    setSubmitButton(false)
-                    setCurrentAnswer('')
-                    if (currentPosition != questions.length - 1) {
-                      setCurrentPosition(currentPosition + 1)
-                    } else {
-                      //  onComplete(answers)
-                      setCurrentPosition(-2)
-                    }
-                  } else {
-                    setAnswers([
-                      ...answers,
-                      {
-                        question: currentPosition,
-                        selections: currentMultipleChoice
+              {questions[currentPosition].type === 'short-text' ? (
+                <div className={'mt-2'}>
+                  <input
+                    value={currentAnswer}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setAnswers([
+                          ...answers,
+                          { question: currentPosition, answer: e.target.value }
+                        ])
+                        setSubmitButton(false)
+                        if (currentPosition != questions.length - 1) {
+                          setCurrentPosition(currentPosition + 1)
+                        } else setCurrentPosition(-2)
+                        setCurrentAnswer('')
                       }
-                    ])
-                    setSubmitButton(false)
-                    setCurrentMultipleChoice([])
-                    if (currentPosition != questions.length - 1) {
-                      // alert('Heyy')
-                      setCurrentPosition(currentPosition + 1)
-                    } else {
-                      // onComplete(answers)
-                      setCurrentPosition(-2)
+                    }}
+                    onChange={(e) => {
+                      setCurrentAnswer(e.target.value)
+                      if (currentAnswer !== '') {
+                        setSubmitButton(true)
+                      }
+                    }}
+                    className={
+                      'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
                     }
+                    placeholder='Enter your Answer here'
+                  />
+                </div>
+              ) : questions[currentPosition].type === 'multiple-choice' ? (
+                <div style={{ marginTop: '10px' }}>
+                  {getSelectionsFormSelector(currentPosition)}
+                </div>
+              ) : questions[currentPosition].type === 'long-text' ? (
+                <textarea
+                  onKeyDown={(e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                      setAnswers([
+                        ...answers,
+                        { question: currentPosition, answer: e.target.value }
+                      ])
+                      setSubmitButton(false)
+                      if (currentPosition != questions.length - 1) {
+                        setCurrentPosition(currentPosition + 1)
+                      } else setCurrentPosition(-2)
+                      setCurrentAnswer('')
+                    }
+                  }}
+                  onChange={(e) => {
+                    setCurrentAnswer(e.target.value)
+                    if (currentAnswer !== '') {
+                      setSubmitButton(true)
+                    }
+                  }}
+                  className={
+                    'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
                   }
-
-                  //  console.log(answers)
-                }}
-                className={styles.button}
-              >
-                OK
-              </button>
-              {submitButton &&
-              questions[currentPosition].type !== 'multiple-choice' ? (
-                <div
-                  onClick={(e) => {
-                    setAnswers([
-                      ...answers,
-                      { question: currentPosition, answer: currentAnswer }
-                    ])
-                    setSubmitButton(false)
-                    if (currentPosition != questions.length - 1) {
-                      setCurrentPosition(currentPosition + 1)
-                    } else {
-                      //  onComplete(answers)
-                      setCurrentPosition(-2)
+                  placeholder='Enter your Answer here'
+                />
+              ) : questions[currentPosition].type === 'phone-number' ? (
+                <input
+                  maxLength={10}
+                  type='tel'
+                  value={currentAnswer}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setAnswers([
+                        ...answers,
+                        { question: currentPosition, answer: currentAnswer }
+                      ])
+                      setSubmitButton(false)
+                      if (currentPosition != questions.length - 1) {
+                        setCurrentPosition(currentPosition + 1)
+                      } else {
+                        onComplete(answers)
+                        setCurrentPosition(-2)
+                      }
+                      setCurrentAnswer('')
                     }
 
-                    setCurrentAnswer('')
+                    if (e.keyCode == 8) {
+                      if (currentAnswer.length > 0) {
+                        setCurrentAnswer(
+                          currentAnswer.substring(0, currentAnswer.length - 1)
+                        )
+                      }
+                    }
+                    if (e.keyCode >= 48 && e.keyCode <= 57) {
+                      setCurrentAnswer(currentAnswer + e.key)
+                    }
                   }}
-                  style={{
-                    borderStyle: 'none',
-                    fontSize: 14,
-                    marginLeft: '10px'
+                  onChange={(e) => {
+                    if (currentAnswer.length == 10) {
+                      setSubmitButton(true)
+                    }
                   }}
-                >
-                  {questions[currentPosition].type === 'long-text'
-                    ? 'Press Ctrl + Return'
-                    : 'Press Return '}
+                  className={
+                    'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
+                  }
+                  max={10}
+                  prefix='+233'
+                  placeholder='Enter your phone here'
+                />
+              ) : questions[currentPosition].type === 'email' ? (
+                <input
+                  type='email'
+                  value={currentAnswer}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setAnswers([
+                        ...answers,
+                        { question: currentPosition, answer: e.target.value }
+                      ])
+                      setSubmitButton(false)
+                      if (currentPosition != questions.length - 1) {
+                        setCurrentPosition(currentPosition + 1)
+                      } else setCurrentPosition(-2)
+                      setCurrentAnswer('')
+                    }
+                  }}
+                  onChange={(e) => {
+                    setCurrentAnswer(e.target.value)
+                    if (currentAnswer !== '') {
+                      setSubmitButton(true)
+                    }
+                  }}
+                  className={
+                    'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
+                  }
+                  placeholder='Enter your Answer here'
+                />
+              ) : null}
+
+              {submitButton ? (
+                <div className={'flex flex-row items-center mt-3'}>
+                  <div className={'mr-2'}>
+                    <div class='rounded-md shadow'>
+                      <button
+                        onClick={(e) => {
+                          if (
+                            questions[currentPosition].type !==
+                            'multiple-choice'
+                          ) {
+                            setAnswers([
+                              ...answers,
+                              {
+                                question: currentPosition,
+                                answer: currentAnswer
+                              }
+                            ])
+                            setSubmitButton(false)
+                            setCurrentAnswer('')
+                            if (currentPosition != questions.length - 1) {
+                              setCurrentPosition(currentPosition + 1)
+                            } else {
+                              //  onComplete(answers)
+                              setCurrentPosition(-2)
+                            }
+                          } else {
+                            setAnswers([
+                              ...answers,
+                              {
+                                question: currentPosition,
+                                selections: currentMultipleChoice
+                              }
+                            ])
+                            setSubmitButton(false)
+                            setCurrentMultipleChoice([])
+                            if (currentPosition != questions.length - 1) {
+                              // alert('Heyy')
+                              setCurrentPosition(currentPosition + 1)
+                            } else {
+                              // onComplete(answers)
+                              setCurrentPosition(-2)
+                            }
+                          }
+
+                          //  console.log(answers)
+                        }}
+                        class='w-full flex items-center justify-center px-8 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                      >
+                        <span>OK</span>
+                        <svg
+                          width={20}
+                          height={20}
+                          viewBox='0 0 24 24'
+                          fill='none'
+                          stroke='currentColor'
+                          strokeWidth={2}
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          className='feather feather-check ml-1'
+                        >
+                          <path d='M20 6L9 17 4 12' />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  {submitButton &&
+                  questions[currentPosition].type !== 'multiple-choice' ? (
+                    <div
+                      onClick={(e) => {
+                        setAnswers([
+                          ...answers,
+                          { question: currentPosition, answer: currentAnswer }
+                        ])
+                        setSubmitButton(false)
+                        if (currentPosition != questions.length - 1) {
+                          setCurrentPosition(currentPosition + 1)
+                        } else {
+                          //  onComplete(answers)
+                          setCurrentPosition(-2)
+                        }
+
+                        setCurrentAnswer('')
+                      }}
+                      className={'flex flex-row items-center'}
+                    >
+                      <span className={'text-sm mr-2'}>
+                        {questions[currentPosition].type === 'long-text'
+                          ? 'Press Ctrl + Return'
+                          : 'Press Return '}
+                      </span>
+                      <svg
+                        width={15}
+                        height={15}
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='currentColor'
+                        strokeWidth={2}
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        className='feather feather-corner-down-left'
+                      >
+                        <path d='M9 10L4 15 9 20' />
+                        <path d='M20 4v7a4 4 0 01-4 4H4' />
+                      </svg>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
-          ) : null}
+          </div>
         </div>
       )}
 
@@ -385,6 +460,58 @@ export function Polyform({ form, onComplete, current }) {
       >
         Powered by <b>Polymorph Labs</b>
       </div> */}
+      <div className={'absolute bottom-0 right-0 z-1'}>
+        <div
+          style={{ height: '15vh' }}
+          className={'w-full flex flex-row justify-end items-end p-5'}
+        >
+          <span class='relative z-0 inline-flex shadow-sm rounded-md'>
+            <button
+              type='button'
+              class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'
+            >
+              Powered{' '}
+              <span className={'text-white font-bold'}> by Polymorph Labs</span>
+            </button>
+            <span class='-ml-px relative block'>
+              <button
+                type='button'
+                class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                aria-label='Expand'
+              >
+                <svg
+                  width={20}
+                  height={21}
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth={2}
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  className='feather feather-chevron-up'
+                >
+                  <path d='M18 15L12 9 6 15' />
+                </svg>
+              </button>
+            </span>
+            <span class='-ml-px relative block'>
+              <button
+                type='button'
+                class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                aria-label='Expand'
+              >
+                <svg class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
+                  <path
+                    fill-rule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clip-rule='evenodd'
+                  />
+                </svg>
+              </button>
+            </span>
+          </span>
+        </div>
+      </div>
     </div>
   )
 }
