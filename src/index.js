@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './styles.module.css'
 import './tailwind.css'
 
-export function Polyform({ form, onComplete, current }) {
+export function Polyform({ form, onComplete, current, preview }) {
   const [currentPosition, setCurrentPosition] = React.useState(
     current == -5 ? -1 : current
   )
@@ -135,7 +135,7 @@ export function Polyform({ form, onComplete, current }) {
         </div>
       ) : (
         <div classname='lg:relative'>
-          <div className='flex content-center flex-wrap p-48 bg-white h-screen'>
+          <div className='flex content-center flex-wrap pl-32 bg-white h-screen'>
             <div className={'mt-1'}>
               <span
                 style={{ fontSize: '1rem' }}
@@ -171,7 +171,7 @@ export function Polyform({ form, onComplete, current }) {
           </div> */}
             <div>
               <div className={''}>
-                <span className='text-4xl font-semibold'>
+                <span style={{ fontSize: '1.2rem' }} className={'text-black'}>
                   {questions[currentPosition].question}
                 </span>
               </div>
@@ -180,6 +180,7 @@ export function Polyform({ form, onComplete, current }) {
                 <div className={'mt-2'}>
                   <input
                     value={currentAnswer}
+                    style={{ width: '30vw', fontSize: '1.7rem' }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         setAnswers([
@@ -200,9 +201,9 @@ export function Polyform({ form, onComplete, current }) {
                       }
                     }}
                     className={
-                      'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
+                      'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
                     }
-                    placeholder='Enter your Answer here'
+                    placeholder='Enter your answer here...'
                   />
                 </div>
               ) : questions[currentPosition].type === 'multiple-choice' ? (
@@ -231,15 +232,17 @@ export function Polyform({ form, onComplete, current }) {
                     }
                   }}
                   className={
-                    'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
+                    'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
                   }
-                  placeholder='Enter your Answer here'
+                  style={{ width: '30vw', fontSize: '1.7rem' }}
+                  placeholder='Enter your answer here...'
                 />
               ) : questions[currentPosition].type === 'phone-number' ? (
                 <input
                   maxLength={10}
                   type='tel'
                   value={currentAnswer}
+                  style={{ width: '30vw', fontSize: '1.7rem' }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       setAnswers([
@@ -273,16 +276,17 @@ export function Polyform({ form, onComplete, current }) {
                     }
                   }}
                   className={
-                    'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
+                    'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
                   }
                   max={10}
                   prefix='+233'
-                  placeholder='Enter your phone here'
+                  placeholder='Enter phone number here...'
                 />
               ) : questions[currentPosition].type === 'email' ? (
                 <input
                   type='email'
                   value={currentAnswer}
+                  style={{ width: '30vw', fontSize: '1.7rem' }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       setAnswers([
@@ -303,9 +307,9 @@ export function Polyform({ form, onComplete, current }) {
                     }
                   }}
                   className={
-                    'text-blue-900 placeholder-gray-500 focus:border-blue-800 focus:outline-none  pb-1'
+                    'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
                   }
-                  placeholder='Enter your Answer here'
+                  placeholder='Enter your answer here...'
                 />
               ) : null}
 
@@ -466,48 +470,56 @@ export function Polyform({ form, onComplete, current }) {
           className={'w-full flex flex-row justify-end items-end p-5'}
         >
           <span class='relative z-0 inline-flex shadow-sm rounded-md'>
-            <button
-              type='button'
-              class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'
-            >
-              Powered{' '}
-              <span className={'text-white font-bold'}> by Polymorph Labs</span>
-            </button>
+            <div class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'>
+              Powered
+              <span className={'text-white font-bold'}>
+                {' '}
+                {'. '}by Polymorph Labs
+              </span>
+            </div>
             <span class='-ml-px relative block'>
-              <button
-                type='button'
-                class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
-                aria-label='Expand'
-              >
-                <svg
-                  width={20}
-                  height={21}
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth={2}
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='feather feather-chevron-up'
+              {currentPosition !== -5 && currentPosition !== -1 ? (
+                <button
+                  onClick={() => {
+                    setCurrentPosition(currentPosition - 1)
+                  }}
+                  type='button'
+                  class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                  aria-label='Expand'
                 >
-                  <path d='M18 15L12 9 6 15' />
-                </svg>
-              </button>
+                  <svg
+                    width={20}
+                    height={21}
+                    viewBox='0 0 24 24'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth={2}
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    className='feather feather-chevron-up'
+                  >
+                    <path d='M18 15L12 9 6 15' />
+                  </svg>
+                </button>
+              ) : null}
             </span>
             <span class='-ml-px relative block'>
-              <button
-                type='button'
-                class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
-                aria-label='Expand'
-              >
-                <svg class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
-                  <path
-                    fill-rule='evenodd'
-                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                    clip-rule='evenodd'
-                  />
-                </svg>
-              </button>
+              {preview && currentPosition < form.questions.length - 1 && (
+                <button
+                  onClick={() => setCurrentPosition(currentPosition + 1)}
+                  type='button'
+                  class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                  aria-label='Expand'
+                >
+                  <svg class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
+                    <path
+                      fill-rule='evenodd'
+                      d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                      clip-rule='evenodd'
+                    />
+                  </svg>
+                </button>
+              )}
             </span>
           </span>
         </div>
@@ -531,6 +543,7 @@ Polyform.defaultProps = {
     selections: []
   },
   current: -5,
+  preview: false,
 
   onComplete: (e) => e
 }
