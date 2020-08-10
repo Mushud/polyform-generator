@@ -539,69 +539,64 @@ export function Polyform({ form, onComplete, current, preview }) {
       >
         Powered by <b>Polymorph Labs</b>
       </div> */}
-      <div className={'absolute bottom-0 right-0 z-1'}>
-        <div
-          style={{ height: '15vh' }}
-          className={'w-full flex flex-row justify-end items-end p-5'}
-        >
-          <span class='relative z-0 inline-flex shadow-sm rounded-md'>
-            <div class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'>
-              Powered
-              <span className={'text-white font-bold'}>
-                {' '}
-                {'. '}by Polymorph Labs
-              </span>
-            </div>
-            <span class='-ml-px relative block'>
-              {currentPosition !== -5 && currentPosition !== -1 ? (
-                <button
-                  onClick={() => {
-                    if (currentPosition == -2) {
-                      setCurrentPosition(form.questions.length - 1)
-                    } else {
-                      setCurrentPosition(currentPosition - 1)
-                    }
-                  }}
-                  type='button'
-                  class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
-                  aria-label='Expand'
-                >
-                  <svg
-                    width={20}
-                    height={21}
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth={2}
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='feather feather-chevron-up'
-                  >
-                    <path d='M18 15L12 9 6 15' />
-                  </svg>
-                </button>
-              ) : null}
+      <div style={{ position: 'absolute', top: 0, right: 0, margin: '10px' }}>
+        <span class='relative z-0 inline-flex shadow-sm rounded-md'>
+          <div class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'>
+            Powered
+            <span className={'text-white font-bold'}>
+              {' '}
+              {'. '}by Polymorph Labs
             </span>
-            <span class='-ml-px relative block'>
-              {preview && currentPosition < form.questions.length - 1 && (
-                <button
-                  onClick={() => setCurrentPosition(currentPosition + 1)}
-                  type='button'
-                  class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-teal-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
-                  aria-label='Expand'
+          </div>
+          <span class='-ml-px relative block'>
+            {currentPosition !== -5 && currentPosition !== -1 ? (
+              <button
+                onClick={() => {
+                  if (currentPosition == -2) {
+                    setCurrentPosition(form.questions.length - 1)
+                  } else {
+                    setCurrentPosition(currentPosition - 1)
+                  }
+                }}
+                type='button'
+                class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                aria-label='Expand'
+              >
+                <svg
+                  width={20}
+                  height={21}
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth={2}
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  className='feather feather-chevron-up'
                 >
-                  <svg class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
-                    <path
-                      fill-rule='evenodd'
-                      d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-                      clip-rule='evenodd'
-                    />
-                  </svg>
-                </button>
-              )}
-            </span>
+                  <path d='M18 15L12 9 6 15' />
+                </svg>
+              </button>
+            ) : null}
           </span>
-        </div>
+          <span class='-ml-px relative block'>
+            {preview && currentPosition < form.questions.length - 1 && (
+              <button
+                onClick={() => setCurrentPosition(currentPosition + 1)}
+                type='button'
+                class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-teal-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                aria-label='Expand'
+              >
+                <svg class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
+                  <path
+                    fill-rule='evenodd'
+                    d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
+                    clip-rule='evenodd'
+                  />
+                </svg>
+              </button>
+            )}
+          </span>
+        </span>
       </div>
     </div>
   )
