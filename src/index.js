@@ -77,40 +77,76 @@ export function Polyform({ form, onComplete, current, preview }) {
       </style>
 
       {currentPosition == -1 ? (
-        <div classname='lg:relative h-screen'>
-          <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
-            <div class='px-4 lg:w-1/2 sm:px-8 xl:pr-16'>
-              <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
-                {form.container.title}
-                <br class='xl:hidden'></br>
-                <span class='text-indigo-600'>.</span>
-              </h2>
-              <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
-                {form.container.about}
-              </p>
-              <div class='mt-10 sm:flex sm:justify-center lg:justify-start'>
-                <div class='rounded-md shadow'>
-                  <button
-                    onClick={() => {
-                      setCurrentPosition(0)
-                    }}
-                    class='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
-                  >
-                    Get started
-                  </button>
+        preview ? (
+          <div classname='lg:relative h-screen'>
+            <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
+              <div class='px-4 lg:w-1/2 sm:px-8 xl:pr-16'>
+                <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
+                  {form.container.title}
+                  <br class='xl:hidden'></br>
+                  <span class='text-indigo-600'>.</span>
+                </h2>
+                <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
+                  {form.container.about}
+                </p>
+                <div class='mt-10 sm:flex sm:justify-center lg:justify-start'>
+                  <div class='rounded-md shadow'>
+                    <button
+                      onClick={() => {
+                        setCurrentPosition(0)
+                      }}
+                      class='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                    >
+                      Get started
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class='relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full'>
-            <img
-              class='absolute inset-0 w-full h-full object-cover'
-              src='https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80'
-              alt='Woman on her phone'
-            ></img>
+            <div class='relative w-full h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full'>
+              <img
+                class='absolute inset-0 w-full h-full object-cover'
+                src='https://images.unsplash.com/photo-1594202304180-f25d9c992442?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80'
+                alt='Woman on her phone'
+              ></img>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className='lg-relative'>
+            <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
+              <div class='text-center'>
+                <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
+                  {form.container.title}
+                  <br class='xl:hidden'></br>
+                  <span class='text-indigo-600'>.</span>
+                </h2>
+                <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
+                  {form.container.about}
+                </p>
+                <div class='mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8'>
+                  <div class='rounded-md shadow'>
+                    <button
+                      onClick={() => {
+                        setCurrentPosition(0)
+                      }}
+                      class='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                    >
+                      Get started
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div class='absolute w-full h-screen lg:absolute lg:inset-y-0  lg:h-full'>
+              <img
+                class='absolute inset-0 w-full h-full object-cover'
+                src='https://images.unsplash.com/photo-1594202304180-f25d9c992442?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80'
+                alt='Woman on her phone'
+              ></img>
+            </div> */}
+          </div>
+        )
       ) : currentPosition == -2 ? (
         <div>
           <h1 style={{ fontFamily: 'Karla', marginBottom: '10px' }}>
@@ -481,7 +517,11 @@ export function Polyform({ form, onComplete, current, preview }) {
               {currentPosition !== -5 && currentPosition !== -1 ? (
                 <button
                   onClick={() => {
-                    setCurrentPosition(currentPosition - 1)
+                    if (currentPosition == -2) {
+                      setCurrentPosition(form.questions.length - 1)
+                    } else {
+                      setCurrentPosition(currentPosition - 1)
+                    }
                   }}
                   type='button'
                   class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
