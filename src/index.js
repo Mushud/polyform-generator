@@ -13,6 +13,7 @@ export function Polyform({ form, onComplete, current, preview }) {
 
   const [submitButton, setSubmitButton] = React.useState(false)
   const [answers, setAnswers] = React.useState([])
+  const [error, setError] = React.useState(null)
   const [currentAnswer, setCurrentAnswer] = React.useState('')
   const [currentMultipleChoice, setCurrentMultipleChoice] = React.useState([])
   const { questions, selections } = form
@@ -77,14 +78,14 @@ export function Polyform({ form, onComplete, current, preview }) {
       </style>
 
       {currentPosition == -1 ? (
-        preview ? (
-          <div classname='lg:relative h-screen'>
+        !preview ? (
+          <div classname='lg:relative'>
             <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
               <div class='px-4 lg:w-1/2 sm:px-8 xl:pr-16'>
                 <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
                   {form.container.title}
                   <br class='xl:hidden'></br>
-                  <span class='text-indigo-600'>.</span>
+                  <span class='text-teal-600'>.</span>
                 </h2>
                 <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
                   {form.container.about}
@@ -93,9 +94,11 @@ export function Polyform({ form, onComplete, current, preview }) {
                   <div class='rounded-md shadow'>
                     <button
                       onClick={() => {
-                        setCurrentPosition(0)
+                        if (form.questions.length > 0) {
+                          setCurrentPosition(0)
+                        }
                       }}
-                      class='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                      class='w-full flex items-center justify-center px-8 py-1 border border-transparent text-base leading-6 font-medium  text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition duration-150 ease-in-out md:py-2 md:text-lg md:px-10'
                     >
                       Get started
                     </button>
@@ -113,24 +116,34 @@ export function Polyform({ form, onComplete, current, preview }) {
             </div>
           </div>
         ) : (
-          <div className='lg-relative'>
+          <div
+            className='lg-relative bg-cover bg-center'
+            style={{
+              backgroundImage:
+                'url(' +
+                'https://images.unsplash.com/photo-1594202304180-f25d9c992442?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80' +
+                ')'
+            }}
+          >
             <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
               <div class='text-center'>
-                <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
+                <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-white sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
                   {form.container.title}
                   <br class='xl:hidden'></br>
-                  <span class='text-indigo-600'>.</span>
+                  <span class='text-teal-600'>.</span>
                 </h2>
-                <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
+                <p class='mt-3 max-w-md mx-auto text-lg text-white sm:text-xl md:mt-5 md:max-w-3xl'>
                   {form.container.about}
                 </p>
                 <div class='mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8'>
-                  <div class='rounded-md shadow'>
+                  <div class=' shadow'>
                     <button
                       onClick={() => {
-                        setCurrentPosition(0)
+                        if (form.questions.length > 0) {
+                          setCurrentPosition(0)
+                        }
                       }}
-                      class='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                      class='w-full flex items-center justify-center px-6 py-1 border border-transparent text-base leading-6 font-medium  text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition duration-150 ease-in-out md:py-4 md:text-lg md:px-8'
                     >
                       Get started
                     </button>
@@ -138,7 +151,7 @@ export function Polyform({ form, onComplete, current, preview }) {
                 </div>
               </div>
             </div>
-            {/* <div class='absolute w-full h-screen lg:absolute lg:inset-y-0  lg:h-full'>
+            {/* <div class='relative w-full h-screen lg:absolute lg:inset-y-0  lg:h-full'>
               <img
                 class='absolute inset-0 w-full h-full object-cover'
                 src='https://images.unsplash.com/photo-1594202304180-f25d9c992442?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80'
@@ -148,30 +161,53 @@ export function Polyform({ form, onComplete, current, preview }) {
           </div>
         )
       ) : currentPosition == -2 ? (
-        <div>
-          <h1 style={{ fontFamily: 'Karla', marginBottom: '10px' }}>
-            Thanks for completing this Form
-          </h1>
-          <button className={styles.button} onClick={() => onComplete(answers)}>
-            Submit
-          </button>
-          <button
-            style={{ marginLeft: '10px' }}
-            className={styles.button}
-            onClick={() => {
-              setCurrentPosition(questions.length - 1)
-              let currentAnswers = answers
-              currentAnswers.pop()
-              setAnswers(currentAnswers)
-            }}
-          >
-            Go Back
-          </button>
-          <p style={{ fontFamily: 'Karla' }}>Powered by Polymorph Labs</p>
+        <div className='lg-relative'>
+          <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
+            <div class='text-center'>
+              <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
+                Thanks for filling the Form
+                <br class='xl:hidden'></br>
+                <span class='text-teal-600'>.</span>
+              </h2>
+              <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
+                {form.container.about}
+              </p>
+              <div class='mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8'>
+                <div class='rounded-md shadow'>
+                  <button
+                    onClick={() => {
+                      setCurrentPosition(questions.length - 1)
+                      let currentAnswers = answers
+                      currentAnswers.pop()
+                      setAnswers(currentAnswers)
+                    }}
+                    class='w-full flex items-center justify-center px-8 py-1 border border-transparent text-base leading-6 font-medium mr-2 text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition duration-150 ease-in-out md:py-2 md:text-lg md:px-8'
+                  >
+                    Go back
+                  </button>
+                </div>
+                <div class='rounded-md shadow'>
+                  <button
+                    onClick={() => onComplete(answers)}
+                    class='w-full flex items-center justify-center px-8 py-1 border border-transparent  text-base leading-6 font-medium  text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition duration-150 ease-in-out md:py-2 md:text-lg md:px-8'
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <div class='absolute w-full h-screen lg:absolute lg:inset-y-0  lg:h-full'>
+              <img
+                class='absolute inset-0 w-full h-full object-cover'
+                src='https://images.unsplash.com/photo-1594202304180-f25d9c992442?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80'
+                alt='Woman on her phone'
+              ></img>
+            </div> */}
         </div>
       ) : (
         <div classname='lg:relative'>
-          <div className='flex content-center flex-wrap pl-32 bg-white h-screen'>
+          <div className='flex content-center flex-wrap pl-20 pr-12 bg-white h-screen'>
             <div className={'mt-1'}>
               <span
                 style={{ fontSize: '1rem' }}
@@ -195,16 +231,6 @@ export function Polyform({ form, onComplete, current, preview }) {
               </span>
             </div>
 
-            {/* <div
-            style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              fontFamily: 'Karla',
-              margin: 0
-            }}
-          >
-            {currentPosition + 1}. {questions[currentPosition].question}
-          </div> */}
             <div>
               <div className={''}>
                 <span style={{ fontSize: '1.2rem' }} className={'text-black'}>
@@ -216,7 +242,7 @@ export function Polyform({ form, onComplete, current, preview }) {
                 <div className={'mt-2'}>
                   <input
                     value={currentAnswer}
-                    style={{ width: '30vw', fontSize: '1.7rem' }}
+                    style={{ width: '40vw', fontSize: '1.7rem' }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         setAnswers([
@@ -263,14 +289,14 @@ export function Polyform({ form, onComplete, current, preview }) {
                   }}
                   onChange={(e) => {
                     setCurrentAnswer(e.target.value)
-                    if (currentAnswer !== '') {
+                    if (currentAnswer.length > 0) {
                       setSubmitButton(true)
                     }
                   }}
                   className={
                     'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
                   }
-                  style={{ width: '30vw', fontSize: '1.7rem' }}
+                  style={{ width: '40vw', fontSize: '1.7rem' }}
                   placeholder='Enter your answer here...'
                 />
               ) : questions[currentPosition].type === 'phone-number' ? (
@@ -278,21 +304,25 @@ export function Polyform({ form, onComplete, current, preview }) {
                   maxLength={10}
                   type='tel'
                   value={currentAnswer}
-                  style={{ width: '30vw', fontSize: '1.7rem' }}
+                  style={{ width: '40vw', fontSize: '1.7rem' }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                      setAnswers([
-                        ...answers,
-                        { question: currentPosition, answer: currentAnswer }
-                      ])
-                      setSubmitButton(false)
-                      if (currentPosition != questions.length - 1) {
-                        setCurrentPosition(currentPosition + 1)
+                      if (currentAnswer.length == 10) {
+                        setAnswers([
+                          ...answers,
+                          { question: currentPosition, answer: currentAnswer }
+                        ])
+                        setSubmitButton(false)
+                        if (currentPosition != questions.length - 1) {
+                          setCurrentPosition(currentPosition + 1)
+                        } else {
+                          onComplete(answers)
+                          setCurrentPosition(-2)
+                        }
+                        setCurrentAnswer('')
                       } else {
-                        onComplete(answers)
-                        setCurrentPosition(-2)
+                        setError('Phone numbers should be at least 10 digits')
                       }
-                      setCurrentAnswer('')
                     }
 
                     if (e.keyCode == 8) {
@@ -303,11 +333,14 @@ export function Polyform({ form, onComplete, current, preview }) {
                       }
                     }
                     if (e.keyCode >= 48 && e.keyCode <= 57) {
-                      setCurrentAnswer(currentAnswer + e.key)
+                      if (currentAnswer.length < 10) {
+                        setCurrentAnswer(currentAnswer + e.key)
+                      }
                     }
                   }}
                   onChange={(e) => {
-                    if (currentAnswer.length == 10) {
+                    setError(null)
+                    if (currentAnswer.length > 9) {
                       setSubmitButton(true)
                     }
                   }}
@@ -322,7 +355,7 @@ export function Polyform({ form, onComplete, current, preview }) {
                 <input
                   type='email'
                   value={currentAnswer}
-                  style={{ width: '30vw', fontSize: '1.7rem' }}
+                  style={{ width: '40vw', fontSize: '1.7rem' }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       setAnswers([
@@ -352,7 +385,7 @@ export function Polyform({ form, onComplete, current, preview }) {
               {submitButton ? (
                 <div className={'flex flex-row items-center mt-3'}>
                   <div className={'mr-2'}>
-                    <div class='rounded-md shadow'>
+                    <div class='shadow'>
                       <button
                         onClick={(e) => {
                           if (
@@ -395,7 +428,7 @@ export function Polyform({ form, onComplete, current, preview }) {
 
                           //  console.log(answers)
                         }}
-                        class='w-full flex items-center justify-center px-8 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10'
+                        class='w-full flex items-center justify-center px-8 py-1 border border-transparent text-base leading-6 font-medium  text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition duration-150 ease-in-out md:py-2 md:text-lg md:px-8'
                       >
                         <span>OK</span>
                         <svg
@@ -414,6 +447,7 @@ export function Polyform({ form, onComplete, current, preview }) {
                       </button>
                     </div>
                   </div>
+
                   {submitButton &&
                   questions[currentPosition].type !== 'multiple-choice' ? (
                     <div
@@ -457,6 +491,11 @@ export function Polyform({ form, onComplete, current, preview }) {
                   ) : null}
                 </div>
               ) : null}
+              {error && (
+                <span style={{ fontSize: '1rem' }} className={'text-red-500'}>
+                  {error}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -506,7 +545,7 @@ export function Polyform({ form, onComplete, current, preview }) {
           className={'w-full flex flex-row justify-end items-end p-5'}
         >
           <span class='relative z-0 inline-flex shadow-sm rounded-md'>
-            <div class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'>
+            <div class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'>
               Powered
               <span className={'text-white font-bold'}>
                 {' '}
@@ -524,7 +563,7 @@ export function Polyform({ form, onComplete, current, preview }) {
                     }
                   }}
                   type='button'
-                  class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                  class='relative inline-flex items-center px-2 py-2 rounded-none border-l border-r border-white bg-white text-sm leading-5 font-medium text-white bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
                   aria-label='Expand'
                 >
                   <svg
@@ -548,7 +587,7 @@ export function Polyform({ form, onComplete, current, preview }) {
                 <button
                   onClick={() => setCurrentPosition(currentPosition + 1)}
                   type='button'
-                  class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-red-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
+                  class='relative inline-flex items-center px-2 py-2 rounded-sm border border-white bg-white text-sm leading-5 font-medium text-white bg-teal-900 hover:bg-red-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-red active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150'
                   aria-label='Expand'
                 >
                   <svg class='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
