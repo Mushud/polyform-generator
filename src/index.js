@@ -60,7 +60,7 @@ export function Polyform({ form, onComplete, current, preview }) {
   }
 
   return (
-    <div className={'relative bg-gray-100 h-screen'}>
+    <div className='relative bg-gray-100'>
       <style>
         <style>
           @import
