@@ -30,7 +30,7 @@ const formObject = {
       question: 'Enter your phone number'
     },
     {
-      type: 'long-text',
+      type: 'number',
       key: 82271,
       question: 'Describe your self'
     },

@@ -1,6 +1,46 @@
 import React from 'react'
 import styles from './styles.module.css'
+
 import './tailwind.css'
+
+function MultipleSelection({ index, selections, answers, addAnswer }) {
+  const [currentAnswer, setCurrentAnswer] = React.useState(null)
+
+  React.useEffect(() => {
+    setCurrentAnswer(answers.find((q) => q.question == index))
+    console.log('hi')
+  }, [answers])
+
+  function getSelectionsFormSelector() {
+    const mSelect = selections.findIndex(
+      (element) => element.questionIndex === index
+    )
+
+    return selections[mSelect].selections.map((choice, n = index) => (
+      <div
+        onClick={() => {
+          addAnswer(index, choice)
+
+          setCurrentAnswer(answers.find((q) => q.question == index))
+        }}
+        style={{
+          backgroundColor:
+            currentAnswer && currentAnswer.answer == choice ? 'teal' : 'white',
+          color:
+            currentAnswer && currentAnswer.answer == choice ? 'white' : 'black',
+          marginBottom: '10px',
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          borderColor: '#fafafa',
+          padding: '10px'
+        }}
+      >
+        {n + 1 + ' - '} {choice}
+      </div>
+    ))
+  }
+  return getSelectionsFormSelector()
+}
 
 export function Polyform({ form, onComplete, current, preview }) {
   const [currentPosition, setCurrentPosition] = React.useState(
@@ -57,6 +97,18 @@ export function Polyform({ form, onComplete, current, preview }) {
         {n + 1 + ' - '} {choice}
       </div>
     ))
+  }
+
+  function addAnswer(questionindex, answer) {
+    const previewsAnswer = answers.findIndex((q) => q.question == questionindex)
+    if (previewsAnswer != -1) {
+      answers[previewsAnswer] = {
+        question: questionindex,
+        answer: answer
+      }
+    } else {
+      setAnswers([...answers, { question: questionindex, answer }])
+    }
   }
 
   return (
@@ -165,13 +217,11 @@ export function Polyform({ form, onComplete, current, preview }) {
           <div class='mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left h-screen'>
             <div class='text-center'>
               <h2 class='text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl lg:text-5xl xl:text-6xl'>
-                Thanks for filling the Form
+                Thanks for filling this form
                 <br class='xl:hidden'></br>
                 <span class='text-teal-600'>.</span>
               </h2>
-              <p class='mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl'>
-                {form.container.about}
-              </p>
+
               <div class='mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8'>
                 <div class='rounded-md shadow'>
                   <button
@@ -204,6 +254,156 @@ export function Polyform({ form, onComplete, current, preview }) {
                 alt='Woman on her phone'
               ></img>
             </div> */}
+        </div>
+      ) : !preview ? (
+        <div className='lg:relative container p-32 bg-white h-screen'>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              setCurrentPosition(-2)
+            }}
+          >
+            {questions.map((item, index) => (
+              <div className='flex content-center flex-wrap pl-20 pb-4 pr-12 bg-white'>
+                <div className={'mt-1'}>
+                  <span
+                    style={{ fontSize: '1rem' }}
+                    className={'text-blue-600 flex flex-row items-center'}
+                  >
+                    {index + 1}
+                    <svg
+                      width={15}
+                      height={15}
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth={2}
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      className='feather feather-arrow-right mx-1'
+                    >
+                      <path d='M5 12L19 12' />
+                      <path d='M12 5L19 12 12 19' />
+                    </svg>
+                  </span>
+                </div>
+                <div>
+                  <div className={''}>
+                    <span
+                      style={{ fontSize: '1.2rem' }}
+                      className={'text-black'}
+                    >
+                      {questions[index].question}
+                    </span>
+                  </div>
+
+                  {questions[index].type === 'short-text' ? (
+                    <div className={'mt-2'}>
+                      <input
+                        style={{ width: '40vw', fontSize: '1.7rem' }}
+                        onChange={(e) => {
+                          addAnswer(index, e.target.value)
+                        }}
+                        className={
+                          'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
+                        }
+                        placeholder='Enter your answer here...'
+                      />
+                    </div>
+                  ) : questions[index].type === 'multiple-choice' ? (
+                    <div style={{ marginTop: '10px' }}>
+                      <MultipleSelection
+                        selections={selections}
+                        answers={answers}
+                        index={index}
+                        addAnswer={addAnswer}
+                      />
+                    </div>
+                  ) : questions[index].type === 'long-text' ? (
+                    <textarea
+                      onChange={(e) => {
+                        addAnswer(index, e.target.value)
+                      }}
+                      className={
+                        'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
+                      }
+                      style={{ width: '40vw', fontSize: '1.7rem' }}
+                      placeholder='Enter your answer here...'
+                    />
+                  ) : questions[index].type === 'phone-number' ? (
+                    <input
+                      maxLength={10}
+                      type='number'
+                      style={{ width: '40vw', fontSize: '1.7rem' }}
+                      onKeyDown={(e) => {
+                        if (e.keyCode == 8) {
+                          if (currentAnswer.length > 0) {
+                            addAnswer(index, e.target.value)
+                          }
+                        }
+                        if (e.keyCode >= 48 && e.keyCode <= 57) {
+                          if (e.target.value.length < 10) {
+                            addAnswer(index, e.target.value)
+                          }
+                        }
+                      }}
+                      onChange={(e) => {
+                        setError(null)
+                        // if (currentAnswer.length > 9) {
+                        //   setSubmitButton(true)
+                        // }
+                      }}
+                      className={
+                        'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
+                      }
+                      max={999999999}
+                      placeholder='Enter phone number here...'
+                    />
+                  ) : questions[index].type === 'email' ? (
+                    <input
+                      type='email'
+                      style={{ width: '40vw', fontSize: '1.7rem' }}
+                      onKeyDown={(e) => {}}
+                      onChange={(e) => {
+                        addAnswer(e.target.value)
+                      }}
+                      className={
+                        'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
+                      }
+                      placeholder='Enter your answer here...'
+                    />
+                  ) : questions[index].type === 'number' ? (
+                    <input
+                      type='number'
+                      style={{ width: '40vw', fontSize: '1.7rem' }}
+                      onChange={(e) => {
+                        addAnswer(index, e.target.value)
+                      }}
+                      className={
+                        'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
+                      }
+                      placeholder='Enter your answer here...'
+                    />
+                  ) : null}
+
+                  {error && (
+                    <span
+                      style={{ fontSize: '1rem' }}
+                      className={'text-red-500'}
+                    >
+                      {error}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+            <button
+              role='submit'
+              class='w-full flex items-center justify-center px-8 py-1 border border-transparent text-base leading-6 font-medium mr-2 text-white bg-teal-600 hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition duration-150 ease-in-out md:py-2 md:text-lg md:px-8'
+            >
+              Finish
+            </button>
+          </form>
         </div>
       ) : (
         <div classname='lg:relative'>
@@ -380,6 +580,35 @@ export function Polyform({ form, onComplete, current, preview }) {
                   }
                   placeholder='Enter your answer here...'
                 />
+              ) : questions[currentPosition].type === 'number' ? (
+                <input
+                  value={currentAnswer}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setAnswers([
+                        ...answers,
+                        { question: currentPosition, answer: e.target.value }
+                      ])
+                      setSubmitButton(false)
+                      if (currentPosition != questions.length - 1) {
+                        setCurrentPosition(currentPosition + 1)
+                      } else setCurrentPosition(-2)
+                      setCurrentAnswer('')
+                    }
+                  }}
+                  onChange={(e) => {
+                    setCurrentAnswer(e.target.value)
+                    if (currentAnswer.length > 0) {
+                      setSubmitButton(true)
+                    }
+                  }}
+                  type='number'
+                  style={{ width: '40vw', fontSize: '1.7rem' }}
+                  className={
+                    'border-b border-blue-400 text-blue-900 placeholder-gray-200 focus:border-blue-800 focus:outline-none  pb-1'
+                  }
+                  placeholder='Enter your answer here...'
+                />
               ) : null}
 
               {submitButton ? (
@@ -501,44 +730,6 @@ export function Polyform({ form, onComplete, current, preview }) {
         </div>
       )}
 
-      {/* <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          marginBottom: '20px',
-          marginLeft: '20px',
-          left: 0
-        }}
-      >
-        Answered <b>{currentPosition} </b>out of <b>{questions.length}</b>
-        {currentPosition != 0 ? (
-          <button
-            onClick={() => {
-              setCurrentAnswer('')
-              setCurrentPosition(currentPosition - 1)
-              setSubmitButton(false)
-              let currentAnswers = answers
-              currentAnswers.pop()
-              setAnswers(currentAnswers)
-            }}
-            style={{
-              marginLeft: '10px',
-              padding: '5px',
-              borderRadius: '4px',
-              backgroundColor: form.container.tintColor,
-              color: 'white',
-              borderStyle: 'none'
-            }}
-          >
-            <b>{'<'}</b>
-          </button>
-        ) : null}
-      </div>
-      <div
-        style={{ position: 'absolute', bottom: 0, right: 0, margin: '20px' }}
-      >
-        Powered by <b>Polymorph Labs</b>
-      </div> */}
       <div style={{ position: 'absolute', top: 0, right: 0, margin: '10px' }}>
         <span class='relative z-0 inline-flex shadow-sm rounded-md'>
           <div class='relative inline-flex items-center px-4 py-2 rounded-sm text-sm leading-5 font-medium text-gray-50 bg-teal-900 hover:bg-teal-700 focus:z-10 focus:outline-none focus:border-teal-300 focus:shadow-outline-teal active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150'>
@@ -617,7 +808,44 @@ Polyform.defaultProps = {
     selections: []
   },
   current: -5,
-  preview: false,
+  preview: true,
 
   onComplete: (e) => e
+}
+
+function multipleSelection({ selections, answers, index }) {
+  function getSelectionsFormSelector() {
+    const mSelect = selections.findIndex(
+      (element) => element.questionIndex === index
+    )
+
+    let currentAnswer = answers.find((q) => q.question == index)
+
+    return selections[mSelect].selections.map((choice, n = index) => (
+      <div
+        onClick={() => {
+          addAnswer(index, choice)
+
+          currentAnswer = answers.find((q) => q.question == index)
+        }}
+        style={{
+          backgroundColor:
+            currentAnswer && currentAnswer.answer == choice
+              ? form.container.tintColor
+              : 'white',
+          color:
+            currentAnswer && currentAnswer.answer == choice ? 'white' : 'black',
+          marginBottom: '10px',
+          borderStyle: 'solid',
+          borderWidth: '1px',
+          borderColor: '#fafafa',
+          padding: '10px'
+        }}
+      >
+        {n + 1 + ' - '} {choice}
+      </div>
+    ))
+  }
+
+  return getSelectionsFormSelector()
 }
